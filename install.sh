@@ -78,7 +78,7 @@ detect_install_dir() {
         print_color "$YELLOW" "Add to your PATH by adding this to ~/.bashrc or ~/.zshrc:" >&2
         echo '    export PATH="$HOME/.local/bin:$PATH"' >&2
         echo "" >&2
-        read -p "Continue anyway? (y/n): " -n 1 -r
+        read -p "Continue anyway? (y/n): " -n 1 -r < /dev/tty
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             exit 1
@@ -189,7 +189,7 @@ install_lmstudio() {
     # Get LM Studio address
     print_color "$YELLOW" "LM Studio API address"
     echo "This is where LM Studio is running (default: http://localhost:1234/v1)"
-    read -p "Enter LM Studio address [http://localhost:1234/v1]: " lmstudio_url
+    read -p "Enter LM Studio address [http://localhost:1234/v1]: " lmstudio_url < /dev/tty
     lmstudio_url="${lmstudio_url:-http://localhost:1234/v1}"
     print_color "$GREEN" "Using: $lmstudio_url"
     echo ""
@@ -528,7 +528,7 @@ install_provider() {
 
     # Get API key
     echo ""
-    read -s -p "Enter your $(get_provider_name "$provider") API key: " api_key
+    read -s -p "Enter your $(get_provider_name "$provider") API key: " api_key < /dev/tty
     echo ""  # New line after password entry
 
     if [ -z "$api_key" ]; then
@@ -539,7 +539,7 @@ install_provider() {
     # Confirm API key was entered
     print_color "$GREEN" "✓ API key received (${#api_key} characters)"
     echo ""
-    read -p "Press Enter to continue with installation... "
+    read -p "Press Enter to continue with installation... " < /dev/tty
     echo ""
 
     # Create standard version
@@ -740,7 +740,7 @@ interactive_menu() {
         echo "7) Remove provider"
         echo "8) Exit"
         echo ""
-        read -p "Choice (1-8): " choice
+        read -p "Choice (1-8): " choice < /dev/tty
 
         case $choice in
             1) install_provider "glm" "$claude_bin" "$install_dir" ;;
@@ -754,7 +754,7 @@ interactive_menu() {
                 ;;
             6) list_providers ;;
             7)
-                read -p "Provider to remove (glm/minimax/openrouter/lmstudio): " provider
+                read -p "Provider to remove (glm/minimax/openrouter/lmstudio): " provider < /dev/tty
                 remove_provider "$provider"
                 ;;
             8)
