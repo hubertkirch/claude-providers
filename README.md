@@ -8,7 +8,7 @@ A simple installer that sets up Claude Code to work with different LLM providers
 
 ## Features
 
-- **Multiple LLM Providers**: Support for GLM (z.ai), MiniMax, and OpenRouter
+- **Multiple LLM Providers**: Support for GLM (z.ai), MiniMax, OpenRouter, and LM Studio (local)
 - **Simple Installation**: One command to set up any provider
 - **Auto-Approval Mode**: Each provider includes an `-auto` version for automation
 - **Cross-Platform**: Works on macOS and Linux
@@ -35,6 +35,7 @@ cd claude-providers
 | **GLM** | Fast and efficient models from z.ai | GLM-4.7 | `claude-glm` |
 | **MiniMax** | Specialized AI capabilities | MiniMax-M2.1 | `claude-minimax` |
 | **OpenRouter** | Access multiple models with one API | Various (specify with `--model`) | `claude-openrouter` |
+| **LM Studio** | Local models via litellm proxy | Any local model (specify with `--model`) | `claude-lmstudio` |
 
 ## Usage Examples
 
@@ -83,6 +84,14 @@ Popular OpenRouter models:
 
 See [OpenRouter Models](https://openrouter.ai/models) for the complete list.
 
+**LM Studio Example (requires model selection):**
+```bash
+claude-lmstudio --model "devstral-small-2-24b-instruct-2512" "Explain this code"
+claude-lmstudio-auto --model "qwen2.5-coder-7b-instruct" -p "Write unit tests"
+```
+
+The model name should match a model loaded in LM Studio. A litellm proxy starts automatically on first run.
+
 ## Management Commands
 
 ```bash
@@ -103,6 +112,7 @@ See [OpenRouter Models](https://openrouter.ai/models) for the complete list.
 - **Claude Code** must be installed first ([Download](https://claude.ai/download))
 - **Bash** 3.0 or higher
 - **macOS** or **Linux**
+- **Poetry** (only required for LM Studio support) - [Install Poetry](https://python-poetry.org/docs/#installation)
 
 ## Installation Details
 
@@ -151,6 +161,18 @@ claude-openrouter "Hello"
 
 # Correct usage
 claude-openrouter --model "mistralai/devstral-2512" "Hello"
+```
+
+### LM Studio connection issues
+Make sure LM Studio is running and the API server is enabled:
+1. Open LM Studio
+2. Load a model
+3. Go to the "Local Server" tab and start the server
+4. Default address is `http://localhost:1234/v1`
+
+You can override the LM Studio address with the `LMSTUDIO_API_BASE` environment variable:
+```bash
+LMSTUDIO_API_BASE="http://192.168.1.100:1234/v1" claude-lmstudio --model "my-model" "Hello"
 ```
 
 ## Security
