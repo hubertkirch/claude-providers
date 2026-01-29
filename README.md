@@ -8,7 +8,7 @@ A simple installer that sets up Claude Code to work with different LLM providers
 
 ## Features
 
-- **Multiple LLM Providers**: Support for GLM (z.ai), MiniMax, OpenRouter, and LM Studio (local)
+- **Multiple LLM Providers**: Support for GLM (z.ai), MiniMax, OpenRouter, LM Studio (local), and Llama.cpp (local)
 - **Simple Installation**: One command to set up any provider
 - **Auto-Approval Mode**: Each provider includes an `-auto` version for automation
 - **Cross-Platform**: Works on macOS and Linux
@@ -36,6 +36,7 @@ cd claude-providers
 | **MiniMax** | Specialized AI capabilities | MiniMax-M2.1 | `claude-minimax` |
 | **OpenRouter** | Access multiple models with one API | Various (specify with `--model`) | `claude-openrouter` |
 | **LM Studio** | Local models via litellm proxy | Any local model (specify with `--model`) | `claude-lmstudio` |
+| **Llama.cpp** | Local llama-server via litellm proxy | Any GGUF model (specify with `--model`) | `claude-llamacpp` |
 
 ## Usage Examples
 
@@ -51,8 +52,10 @@ cd claude-providers
 ./install.sh glm YOUR_API_KEY
 ./install.sh minimax YOUR_API_KEY
 ./install.sh openrouter YOUR_API_KEY
+./install.sh lmstudio    # Local - no API key needed
+./install.sh llamacpp    # Local - no API key needed
 
-# Install all providers at once
+# Install all cloud providers at once
 ./install.sh all
 ```
 
@@ -92,6 +95,19 @@ claude-lmstudio-auto --model "qwen2.5-coder-7b-instruct" -p "Write unit tests"
 
 The model name should match a model loaded in LM Studio. A litellm proxy starts automatically on first run.
 
+**Llama.cpp Example (requires model selection):**
+```bash
+claude-llamacpp --model "qwen2.5-coder-32b" "Explain this code"
+claude-llamacpp-auto --model "GLM-4.7-Flash" -p "Write unit tests"
+```
+
+First, start llama-server with your GGUF model:
+```bash
+llama-server -m /path/to/model.gguf --port 8080
+```
+
+The model name is used for routing and can be any identifier you choose. A litellm proxy starts automatically on first run.
+
 ## Management Commands
 
 ```bash
@@ -102,6 +118,8 @@ The model name should match a model loaded in LM Studio. A litellm proxy starts 
 ./install.sh remove glm
 ./install.sh remove minimax
 ./install.sh remove openrouter
+./install.sh remove lmstudio
+./install.sh remove llamacpp
 
 # Show help
 ./install.sh help
@@ -112,7 +130,7 @@ The model name should match a model loaded in LM Studio. A litellm proxy starts 
 - **Claude Code** must be installed first ([Download](https://claude.ai/download))
 - **Bash** 3.0 or higher
 - **macOS** or **Linux**
-- **Poetry** (only required for LM Studio support) - [Install Poetry](https://python-poetry.org/docs/#installation)
+- **Poetry** (only required for LM Studio and Llama.cpp support) - [Install Poetry](https://python-poetry.org/docs/#installation)
 
 ## Installation Details
 
@@ -175,6 +193,21 @@ You can override the LM Studio address with the `LMSTUDIO_API_BASE` environment 
 LMSTUDIO_API_BASE="http://192.168.1.100:1234/v1" claude-lmstudio --model "my-model" "Hello"
 ```
 
+### Llama.cpp connection issues
+Make sure llama-server is running:
+```bash
+# Start llama-server with your model
+llama-server -m /path/to/model.gguf --port 8080
+
+# With GPU acceleration
+llama-server -m /path/to/model.gguf --port 8080 -ngl 99
+```
+
+Default address is `http://localhost:8080/v1`. You can override it with the `LLAMACPP_API_BASE` environment variable:
+```bash
+LLAMACPP_API_BASE="http://192.168.1.100:8080/v1" claude-llamacpp --model "my-model" "Hello"
+```
+
 ## Security
 
 - API keys are stored only in the script files with `700` permissions (owner read/write/execute only)
@@ -188,7 +221,7 @@ MIT License - See [LICENSE](LICENSE) file for details.
 ## Contributing
 
 Contributions are welcome! Please:
-1. Test with all three providers
+1. Test with the relevant providers
 2. Update documentation as needed
 3. Follow the existing code style
 
