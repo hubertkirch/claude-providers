@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Claude Providers Installer
 # https://github.com/hubertkirch/claude-providers
@@ -13,7 +13,7 @@
 # - LM Studio (local, via litellm proxy)
 # - Llama.cpp (local, via litellm proxy)
 
-set -e
+set -eu
 
 # Colors for output
 RED='\033[0;31m'
@@ -49,7 +49,7 @@ print_header() {
 
 # Detect Claude Code installation
 detect_claude() {
-    local claude_bin=$(which claude 2>/dev/null)
+    local claude_bin=$(command -v claude 2>/dev/null)
 
     if [ -z "$claude_bin" ]; then
         print_color "$RED" "❌ Error: Claude Code not found" >&2
@@ -339,7 +339,6 @@ export CLAUDE_HOME="\$HOME/.claude-lmstudio"
 export ANTHROPIC_AUTH_TOKEN="lmstudio"
 export ANTHROPIC_BASE_URL="http://localhost:\$PROXY_PORT"
 export API_TIMEOUT_MS="$(get_provider_timeout "lmstudio")"
-export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
 export ANTHROPIC_MODEL="\$MODEL"
 export ANTHROPIC_SMALL_FAST_MODEL="\$MODEL"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="\$MODEL"
@@ -486,7 +485,6 @@ export CLAUDE_HOME="\$HOME/.claude-lmstudio"
 export ANTHROPIC_AUTH_TOKEN="lmstudio"
 export ANTHROPIC_BASE_URL="http://localhost:\$PROXY_PORT"
 export API_TIMEOUT_MS="$(get_provider_timeout "lmstudio")"
-export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
 export ANTHROPIC_MODEL="\$MODEL"
 export ANTHROPIC_SMALL_FAST_MODEL="\$MODEL"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="\$MODEL"
@@ -506,11 +504,11 @@ EOF
   "provider": "lmstudio",
   "installed": true,
   "version": "$VERSION",
-  "created": "$(date -Iseconds)",
-  "install_dir": "$install_dir",
-  "script_path": "$script_path",
-  "auto_script_path": "$auto_script_path",
-  "lmstudio_url": "$lmstudio_url"
+    "created": "$(date +"%Y-%m-%dT%H:%M:%S%z")",
+    "install_dir": "$install_dir",
+    "script_path": "$script_path",
+    "auto_script_path": "$auto_script_path",
+    "lmstudio_url": "$lmstudio_url"
 }
 EOF
 
@@ -719,7 +717,6 @@ export CLAUDE_HOME="\$HOME/.claude-llamacpp"
 export ANTHROPIC_AUTH_TOKEN="llamacpp"
 export ANTHROPIC_BASE_URL="http://localhost:\$PROXY_PORT"
 export API_TIMEOUT_MS="$(get_provider_timeout "llamacpp")"
-export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
 export ANTHROPIC_MODEL="\$MODEL"
 export ANTHROPIC_SMALL_FAST_MODEL="\$MODEL"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="\$MODEL"
@@ -866,7 +863,6 @@ export CLAUDE_HOME="\$HOME/.claude-llamacpp"
 export ANTHROPIC_AUTH_TOKEN="llamacpp"
 export ANTHROPIC_BASE_URL="http://localhost:\$PROXY_PORT"
 export API_TIMEOUT_MS="$(get_provider_timeout "llamacpp")"
-export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
 export ANTHROPIC_MODEL="\$MODEL"
 export ANTHROPIC_SMALL_FAST_MODEL="\$MODEL"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="\$MODEL"
@@ -886,11 +882,11 @@ EOF
   "provider": "llamacpp",
   "installed": true,
   "version": "$VERSION",
-  "created": "$(date -Iseconds)",
-  "install_dir": "$install_dir",
-  "script_path": "$script_path",
-  "auto_script_path": "$auto_script_path",
-  "llamacpp_url": "$llamacpp_url"
+    "created": "$(date +"%Y-%m-%dT%H:%M:%S%z")",
+    "install_dir": "$install_dir",
+    "script_path": "$script_path",
+    "auto_script_path": "$auto_script_path",
+    "llamacpp_url": "$llamacpp_url"
 }
 EOF
 
