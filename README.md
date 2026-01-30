@@ -93,6 +93,7 @@ claude-lmstudio --model "devstral-small-2-24b-instruct-2512" "Explain this code"
 claude-lmstudio-auto --model "qwen2.5-coder-7b-instruct" -p "Write unit tests"
 ```
 
+
 The model name should match a model loaded in LM Studio. A litellm proxy starts automatically on first run.
 
 **Llama.cpp Example (requires model selection):**
