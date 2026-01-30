@@ -1,0 +1,16 @@
+#!/bin/sh
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+# Allow main, master, develop branches
+if [ "$branch" = "main" ] || [ "$branch" = "master" ] || [ "$branch" = "develop" ]; then
+  exit 0
+fi
+
+# Validate branch name: type/issue-id-description
+if ! echo "$branch" | grep -qE '^(feat|fix|chore|docs|refactor|style|perf|test)/[0-9]+-.+'; then
+  echo "ERROR: Branch name '$branch' doesn't match pattern: type/ID-description"
+  echo "Examples: feat/123-add-login, fix/456-resolve-crash"
+  echo "Allowed types: feat, fix, chore, docs, refactor, style, perf, test"
+  exit 1
+fi

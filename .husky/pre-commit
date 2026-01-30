@@ -1,0 +1,1 @@
+# No pre-commit checks - validation happens on commit-msg and pre-push

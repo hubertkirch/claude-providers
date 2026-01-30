@@ -231,4 +231,4 @@ Contributions are welcome! Please:
 
 ---
 
-**Note**: This project is not affiliated with Anthropic or any of the LLM providers mentioned. It's a community tool to enhance the Claude Code experience.
+**Note**: This project is not affiliated with Anthropic or any of the LLM providers mentioned. It's a community tool to enhance the Claude Code experience.# test
